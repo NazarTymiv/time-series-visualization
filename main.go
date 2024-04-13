@@ -32,6 +32,11 @@ func main() {
 		MaxAge: 300,
 	}))
 
+	getDataRoute := chi.NewRouter()
+	getDataRoute.Get("/data", getDataHandler)
+
+	router.Mount("/", getDataRoute)
+
 	// server-configuration
 	server := http.Server{
 		Handler: router,
