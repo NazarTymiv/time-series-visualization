@@ -34,6 +34,7 @@ func main() {
 	}))
 
 	// routers
+	router.Get("/", handlers.HomeHandler)
 	router.Get("/data", handlers.GetDataHandler)
 
 	
