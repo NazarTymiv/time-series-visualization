@@ -1,4 +1,4 @@
-package main
+package helpers
 
 import (
 	"math/rand"
@@ -10,7 +10,7 @@ type DataPoint struct {
 	Value float64 `json:"value"`
 }
 
-func generateTimeSeries(pointsNum int) []DataPoint {
+func GenerateTimeSeries(pointsNum int) []DataPoint {
 	data := make([]DataPoint, pointsNum)
 
 	initialValue := rand.Float64() * 100

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/NazarTymiv/time-series-visualization/handlers"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
@@ -32,20 +33,14 @@ func main() {
 		MaxAge: 300,
 	}))
 
-	getDataRoute := chi.NewRouter()
-	getDataRoute.Get("/data", getDataHandler)
+	// routers
+	router.Get("/data", handlers.GetDataHandler)
 
-	router.Mount("/", getDataRoute)
-
-	// server-configuration
-	server := http.Server{
-		Handler: router,
-		Addr: ":"+port,
-	}
+	
 
 	fmt.Printf("Server has been running on port %v", port)
 
-	err := server.ListenAndServe()
+	err := http.ListenAndServe(":"+port, router)
 
 	if err != nil {
 		log.Fatal(err)
