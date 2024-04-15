@@ -10,8 +10,13 @@
   <title>Time Series Visualization</title>
 </head>
 
-<body class="w-full h-screen flex justify-center items-center flex-col">
+<body class="w-full h-screen flex justify-center items-center flex-col px-[50px]">
   <h1 class="color-red font-bold text-4xl mb-5">Time Series Visualization</h1>
+
+  <div class="flex w-fit h-auto items-center justify-center space-x-10">
+    <p class="text-black font-bold text-xl">Start/End Delta: <span id="delta"></span></p>
+    <p class="text-black font-bold text-xl">Current State: <span id="current_state"></span></p>
+  </div>
 
   <div hx-get="/data" hx-swap="none" hx-trigger="load" class="w-[80%] h-[80vh]">
     <canvas id="myChart"></canvas>
@@ -20,7 +25,8 @@
 
 <script>
   document.addEventListener('htmx:afterRequest', (event) => {
-    const { delta, points } = JSON.parse(event.detail.xhr.response)
+    const { delta, current_data, points } = JSON.parse(event.detail.xhr.response)
+    console.log(delta, current_data);
 
     const times = points.map(point => new Date(point.time).toLocaleDateString('en-US', { month: "short", day: "numeric", year: "2-digit" }))
     const values = points.map(point => point.value)
@@ -81,6 +87,12 @@
         }
       }
     });
+
+    const deltaSpan = document.getElementById("delta")
+    const currentDataSpan = document.getElementById("current_state")
+
+    deltaSpan.innerHTML = delta.toFixed(2)
+    currentDataSpan.innerHTML = current_data.toFixed(2)
   })
 
 </script>

@@ -9,7 +9,7 @@ import (
 type Data struct {
 	Points []helpers.DataPoint `json:"points"`
 	Delta float64 `json:"delta"`
-	CurrentData float64 `json:"current_point"`
+	CurrentData float64 `json:"current_data"`
 }
 
 func GetDataHandler(w http.ResponseWriter, r *http.Request) {
