@@ -9,6 +9,7 @@ import (
 type Data struct {
 	Points []helpers.DataPoint `json:"points"`
 	Delta float64 `json:"delta"`
+	CurrentData float64 `json:"current_point"`
 }
 
 func GetDataHandler(w http.ResponseWriter, r *http.Request) {
@@ -20,6 +21,7 @@ func GetDataHandler(w http.ResponseWriter, r *http.Request) {
 	data := Data{
 		Points: dataPoints,
 		Delta: endValue - startValue,
+		CurrentData: endValue,
 	}
 
 	helpers.RespondWithJSON(w, 200, data)
