@@ -14,8 +14,8 @@
   <h1 class="color-red font-bold text-4xl mb-5">Time Series Visualization</h1>
 
   <div class="flex w-fit h-auto items-center justify-center space-x-10">
-    <p class="text-black font-bold text-xl">Start/End Delta: <span id="delta"></span></p>
-    <p class="text-black font-bold text-xl">Current State: <span id="current_state"></span></p>
+    <p class="text-black font-bold text-xl">Start/End Delta: £<span id="delta"></span></p>
+    <p class="text-black font-bold text-xl">Current State: £<span id="current_state"></span></p>
   </div>
 
   <div hx-get="/data" hx-swap="none" hx-trigger="load" class="w-[80%] h-[80vh]">
@@ -69,9 +69,11 @@
       data: {
         labels: times,
         datasets: [{
-          label: 'Stock price',
+          label: 'Stock price £',
           data: values,
-          borderColor: 'blue',
+          backgroundColor: "rgba(143,199,232,0.2)",
+          borderColor: "rgba(108,108,108,1)",
+          pointBackgroundColor: "#535353",
           borderWidth: 1,
           radius: 0,
         }]
@@ -83,6 +85,15 @@
         },
         plugins: {
           legend: false
+        },
+        scales: {
+          y: {
+            ticks: {
+              callback: function (value, index, ticks) {
+                return '£' + value;
+              }
+            }
+          }
         }
       }
     });
