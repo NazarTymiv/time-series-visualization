@@ -12,7 +12,7 @@ type Data struct {
 }
 
 func GetDataHandler(w http.ResponseWriter, r *http.Request) {
-	dataPoints := helpers.GenerateTimeSeries(10)
+	dataPoints := helpers.GenerateTimeSeries(1000)
 
 	startValue := dataPoints[0].Value
 	endValue := dataPoints[len(dataPoints) - 1].Value

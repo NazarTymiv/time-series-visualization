@@ -13,16 +13,74 @@
 <body class="w-full h-screen flex justify-center items-center flex-col">
   <h1 class="color-red font-bold text-4xl mb-5">Time Series Visualization</h1>
 
-  <div hx-get="/data" hx-swap="none" hx-trigger="load" class="w-[80%] h-[80vh] border">
+  <div hx-get="/data" hx-swap="none" hx-trigger="load" class="w-[80%] h-[80vh]">
     <canvas id="myChart"></canvas>
   </div>
 </body>
 
 <script>
   document.addEventListener('htmx:afterRequest', (event) => {
-    const data = JSON.parse(event.detail.xhr.response)
+    const { delta, points } = JSON.parse(event.detail.xhr.response)
 
-    console.log(data);
+    const times = points.map(point => new Date(point.time).toLocaleDateString('en-US', { month: "short", day: "numeric" }))
+    const values = points.map(point => point.value)
+
+    const ctx = document.getElementById('myChart');
+
+    const totalDuration = points.length * 25;
+    const delayBetweenPoints = totalDuration / points.length;
+    const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
+    const animation = {
+      x: {
+        type: 'number',
+        easing: 'linear',
+        duration: delayBetweenPoints,
+        from: NaN, // the point is initially skipped
+        delay(ctx) {
+          if (ctx.type !== 'data' || ctx.xStarted) {
+            return 0;
+          }
+          ctx.xStarted = true;
+          return ctx.index * delayBetweenPoints;
+        }
+      },
+      y: {
+        type: 'number',
+        easing: 'linear',
+        duration: delayBetweenPoints,
+        from: previousY,
+        delay(ctx) {
+          if (ctx.type !== 'data' || ctx.yStarted) {
+            return 0;
+          }
+          ctx.yStarted = true;
+          return ctx.index * delayBetweenPoints;
+        }
+      }
+    };
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: times,
+        datasets: [{
+          label: 'Stock price',
+          data: values,
+          borderColor: 'blue',
+          borderWidth: 1,
+          radius: 0,
+        }]
+      },
+      options: {
+        animation,
+        interaction: {
+          intersect: false
+        },
+        plugins: {
+          legend: false
+        }
+      }
+    });
   })
 
 </script>
