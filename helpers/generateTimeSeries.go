@@ -19,7 +19,12 @@ func GenerateTimeSeries(pointsNum int) []DataPoint {
 	currentTime := time.Now()
 
 	for i := 0; i < pointsNum; i++ {
-		delta := 2 - rand.Float64() * 4
+		var delta float64
+
+		for currentValue + delta < 0 || delta == 0{
+			delta = 2 - rand.Float64() * 4
+		}
+
 		currentValue += delta
 
 		data[i] = DataPoint{

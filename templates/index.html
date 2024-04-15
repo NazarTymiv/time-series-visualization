@@ -26,7 +26,6 @@
 <script>
   document.addEventListener('htmx:afterRequest', (event) => {
     const { delta, current_data, points } = JSON.parse(event.detail.xhr.response)
-    console.log(delta, current_data);
 
     const times = points.map(point => new Date(point.time).toLocaleDateString('en-US', { month: "short", day: "numeric", year: "2-digit" }))
     const values = points.map(point => point.value)
