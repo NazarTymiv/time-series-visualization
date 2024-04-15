@@ -22,7 +22,7 @@
   document.addEventListener('htmx:afterRequest', (event) => {
     const { delta, points } = JSON.parse(event.detail.xhr.response)
 
-    const times = points.map(point => new Date(point.time).toLocaleDateString('en-US', { month: "short", day: "numeric" }))
+    const times = points.map(point => new Date(point.time).toLocaleDateString('en-US', { month: "short", day: "numeric", year: "2-digit" }))
     const values = points.map(point => point.value)
 
     const ctx = document.getElementById('myChart');
