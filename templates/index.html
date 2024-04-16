@@ -10,16 +10,21 @@
   <title>Time Series Visualization</title>
 </head>
 
-<body class="w-full h-screen flex justify-center items-center flex-col px-[50px]">
-  <h1 class="color-red font-bold text-4xl mb-5">Time Series Visualization</h1>
+<body class="w-full min-h-screen h-auto flex justify-center items-center flex-col px-[50px]">
+  <h1 class="color-red font-bold text-4xl mb-5 mt-5">Time Series Visualization</h1>
 
-  <div class="flex w-fit h-auto items-center justify-center space-x-10">
+  <div class="flex w-fit h-auto items-center justify-center space-x-10 mb-5">
     <p class="text-black font-bold text-xl">Start/End Delta: £<span id="delta"></span></p>
     <p class="text-black font-bold text-xl">Current State: £<span id="current_state"></span></p>
   </div>
 
-  <div hx-get="/data" hx-swap="none" hx-trigger="load" class="w-[80%] h-[80vh]">
-    <canvas id="myChart"></canvas>
+  <div class="flex w-fit h-auto items-center justify-center space-x-10 mb-10">
+    <button hx-get="/data" hx-swap="none" hx-trigger="click"
+      class="py-2 px-5 border border-black bg-none hover:bg-black hover:text-white transition-all">Reload
+      data</button>
+  </div>
+
+  <div hx-get="/data" hx-swap="none" hx-trigger="load" class="w-[100%] h-[100vh]" id="canvas-container">
   </div>
 </body>
 
@@ -30,7 +35,12 @@
     const times = points.map(point => new Date(point.time).toLocaleDateString('en-US', { month: "short", day: "numeric", year: "2-digit" }))
     const values = points.map(point => point.value)
 
-    const ctx = document.getElementById('myChart');
+    const canvasContainer = document.getElementById('canvas-container')
+    canvasContainer.innerHTML = ''
+
+    const newCanvas = document.createElement('canvas');
+    canvasContainer.appendChild(newCanvas)
+    const ctx = newCanvas.getContext('2d')
 
     const totalDuration = points.length * 25;
     const delayBetweenPoints = totalDuration / points.length;
@@ -40,7 +50,7 @@
         type: 'number',
         easing: 'linear',
         duration: delayBetweenPoints,
-        from: NaN, // the point is initially skipped
+        from: NaN,
         delay(ctx) {
           if (ctx.type !== 'data' || ctx.xStarted) {
             return 0;
