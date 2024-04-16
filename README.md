@@ -60,7 +60,7 @@ To get a local copy of this web component and test it manually follow next steps
 
 ### Prerequisites
 
-Install [Golang](https://nodejs.org/en/download/current) for run application.
+Install [Golang](https://go.dev/doc/install) for run application.
 
 To verify if Go is installed, open your terminal and type the following command:
 
