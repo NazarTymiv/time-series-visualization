@@ -8,7 +8,7 @@
     Stock price
     <br/>
     <br/>
-    <a href="#getting-started">View Demo</a>
+    <a href="https://hub.docker.com/r/nazartymiv/time-series-visual">Docker Hub</a>
     .
     <a href="https://github.com/NazarTymiv/time-series-visualization/issues">Report Bug</a>
     .
