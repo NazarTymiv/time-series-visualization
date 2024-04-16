@@ -72,13 +72,21 @@ If you see the version of Go displayed after running this command, it indicates 
 
 ### Installation
 
+#### Github:
+
 ```sh
 git clone https://github.com/NazarTymiv/time-series-visualization.git
 ```
 
+#### Docker hub:
+
+```sh
+docker pull nazartymiv/time-series-visual
+```
+
 ## Usage
 
-For run the application use next steps:
+### For run the application cloned from **Github** use next steps:
 
 1. Open terminal of this app in **VSCode** your location should end on `/time-series-visualization`.
 
@@ -86,6 +94,26 @@ For run the application use next steps:
 
 ```sh
 go build && ./time-series-visualization
+```
+
+3. Open your browser and enter `localhost:4000` in the address bar.
+
+<br />
+
+### For run the application pulled from **Docker hub** use next steps:
+
+1. Open terminal and enter following command for check your docker images:
+
+```sh
+docker images
+
+# After executing this command, you should observe the nazartymiv/time-series-visual repository listed among the images.
+```
+
+2. Run following command for run docker container:
+
+```sh
+docker run -e PORT=4000 -p 4000:4000 nazartymiv/time-series-visual
 ```
 
 3. Open your browser and enter `localhost:4000` in the address bar.
